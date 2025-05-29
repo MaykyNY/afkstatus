@@ -1,1 +1,434 @@
-<h1>Hello World</h1>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+
+<style>
+    /* Import Tailwind CSS framework */
+    @import "tailwindcss";
+
+    /* Custom theme configuration with system font stack */
+    @theme {
+        --font-sans: "Inter var", ui-sans-serif, system-ui, sans-serif,
+            "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+            "Noto Color Emoji";
+    }
+
+    /* Include Tailwind CSS plugins for enhanced form styling and typography */
+    @plugin '@tailwindcss/forms';
+    @plugin '@tailwindcss/typography';
+
+    /* Remove default red box-shadow on invalid form elements */
+    input:invalid,
+    textarea:invalid,
+    select:invalid {
+        box-shadow: none;
+    }
+
+    /* Hide elements with x-cloak attribute (used with Alpine.js) until JavaScript loads */
+    [x-cloak] {
+        display: none;
+    }
+
+    @font-face {
+        font-family: "GD";
+        src: url("/public/fonts/gd.otf") format("opentype");
+        font-display: swap;
+    }
+
+    @layer base {
+        html {
+            font-family: "GD", sans-serif;
+        }
+    }
+
+    /*=============== VARIABLES CSS ===============*/
+    :root {
+        /*========== Colors ==========*/
+        /*Color mode HSL(hue, saturation, lightness)*/
+        --white-color: hsl(0, 0%, 100%);
+        --black-color: hsl(0, 0%, 0%);
+
+        /*========== Font and typography ==========*/
+        /*.5rem = 8px | 1rem = 16px ...*/
+        --body-font: "Poppins", sans-serif;
+        --h1-font-size: 1.5rem;
+        --normal-font-size: 0.938rem;
+
+        /*========== Font weight ==========*/
+        --font-regular: 400;
+        --font-medium: 500;
+
+        /*========== z index ==========*/
+        --z-tooltip: 10;
+        --z-fixed: 100;
+    }
+
+    /*========== Responsive typography ==========*/
+    @media screen and (min-width: 968px) {
+        :root {
+            --normal-font-size: 1rem;
+        }
+    }
+
+    /*=============== BASE ===============*/
+    *,
+    *:after,
+    *:before {
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    ul {
+        list-style: none;
+    }
+
+    a {
+        text-decoration: none;
+    }
+
+    /*=============== REUSABLE CSS CLASSES ===============*/
+    .container {
+        max-width: 1140px;
+        width: 100%;
+        margin: 0 auto;
+        padding: 3rem;
+        min-height: 100vh;
+        /* display: grid; */
+        place-items: center;
+    }
+
+    .section__container {
+        --white-color: #ffffff;
+        --dark-color: #222222;
+        --dark-color-alt: #444444;
+        --color-1: #ff1d50;
+        --color-2: #2196f3;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    /*==================== ZigZag Border Animation ====================*/
+    .zigzag__container {
+        --skin-color: #00ff00;
+        --dark-black-color: #292929;
+        --border-color: #928b8b;
+
+        position: absolute;
+        display: flex;
+        gap: 38px;
+    }
+
+    .zigzag__container:nth-child(2) {
+        transform: rotate(180deg);
+        z-index: -1;
+    }
+
+    .zigzag__item {
+        display: block;
+        height: 100px;
+        width: 100px;
+        position: relative;
+        overflow: hidden;
+        transform: rotate(315deg);
+    }
+
+    .zigzag__item::before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, var(--skin-color));
+        transform: translateX(-100%);
+        animation: animateBefore 4s linear infinite;
+        animation-delay: calc(1s * var(--i));
+    }
+
+    @keyframes animateBefore {
+        0% {
+            transform: translateX(-100%);
+        }
+
+        25%,
+        100% {
+            transform: translateX(100%);
+        }
+    }
+
+    .zigzag__item::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        width: 2px;
+        height: 100%;
+        background: linear-gradient(180deg, transparent, var(--skin-color));
+        transform: translateY(-100%);
+        animation: animateAfter 4s linear infinite;
+        animation-delay: calc(1s * var(--i));
+    }
+
+    @keyframes animateAfter {
+
+        0%,
+        12.5% {
+            transform: translateY(-100%);
+        }
+
+        37.5%,
+        100% {
+            transform: translateY(100%);
+        }
+    }
+
+    .zigzag__item span {
+        position: absolute;
+        cursor: pointer;
+        inset: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: var(--dark-black-color);
+        outline: 1px solid var(--border-color);
+        transition: 0.3s linear;
+    }
+
+    .zigzag__container:nth-child(1) .zigzag__item span:hover {
+        outline-offset: -5px;
+    }
+
+    .zigzag__item span b {
+        font-weight: normal;
+        font-size: 2em;
+        transform: rotate(45deg);
+        color: var(--white-color);
+    }
+
+    @media screen and (max-width: 600px) {
+        .zigzag__container {
+            gap: 19px;
+        }
+
+        .zigzag__item {
+            height: 50px;
+            width: 50px;
+        }
+
+        .zigzag__item span b {
+            font-size: 1em;
+        }
+    }
+
+    .button {
+        position: relative;
+        display: inline-block;
+        margin: 20px;
+    }
+
+    .button a {
+        color: white;
+        text-align: center;
+        text-decoration: none;
+        background-color: #ffa12b;
+        display: block;
+        position: relative;
+        padding: 20px 40px;
+
+        -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+        text-shadow: 0px 1px 0px #000;
+        filter: dropshadow(color=#000, offx=0px, offy=1px);
+
+        -webkit-box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
+        -moz-box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
+        box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
+
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .button a:active {
+        top: 10px;
+        background-color: #f78900;
+
+        -webkit-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
+        -moz-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3pxpx 0 #915100;
+        box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
+    }
+
+    .button:after {
+        content: "";
+        height: 100%;
+        width: 100%;
+        padding: 4px;
+        position: absolute;
+        bottom: -15px;
+        left: -4px;
+        z-index: -1;
+        background-color: #2b1800;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+    }
+
+    .box {
+        --border-angle: 0deg;
+        border-radius: 12px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 0px 2px 4px hsl(0 0% 0% / 25%);
+        animation: border-angle-rotate 2s infinite linear;
+        border: 0.5rem solid transparent;
+        position: relative;
+
+        &.a {
+            background: linear-gradient(black, black) padding-box,
+                conic-gradient(from var(--border-angle),
+                    oklch(100% 100% 0deg),
+                    oklch(100% 100% 45deg),
+                    oklch(100% 100% 90deg),
+                    oklch(100% 100% 135deg),
+                    oklch(100% 100% 180deg),
+                    oklch(100% 100% 225deg),
+                    oklch(100% 100% 270deg),
+                    oklch(100% 100% 315deg),
+                    oklch(100% 100% 360deg)) border-box;
+        }
+    }
+
+    @keyframes border-angle-rotate {
+        from {
+            --border-angle: 0deg;
+        }
+
+        to {
+            --border-angle: 360deg;
+        }
+    }
+
+    @property --border-angle {
+        syntax: "<angle>";
+        initial-value: 0deg;
+        inherits: false;
+    }
+
+    @media(prefers-color-scheme: dark) {
+        .bg-dots {
+            background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(200,200,255,0.15)'/%3E%3C/svg%3E");
+        }
+    }
+
+    @media(prefers-color-scheme: light) {
+        .bg-dots {
+            background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,50,0.10)'/%3E%3C/svg%3E")
+        }
+    }
+</style>
+
+
+<body>
+
+    <div
+        class="bg-gray-100 bg-center min-h-[100vh] bg-dots dark:bg-gray-900 selection:bg-indigo-500 selection:text-white">
+
+        <div x-data="{ text:'WATCHU DOING?' }"
+            class="!min-h-[95vh] flex flex-col items-center justify-evenly container mx-auto text-white">
+
+            <div class="flex justify-center w-full">
+                <div id="MyClockDisplay" class="text-8xl" onload="showTime()"></div>
+            </div>
+
+            <section class="">
+                <section class="section__container">
+                    <!--==================== ZigZag Border Animation ====================-->
+                    <div class="zigzag__container">
+                        <div class="zigzag__item" style="--i: 0;"><span class="text-4xl"><b>S</b></span></div>
+                        <div class="zigzag__item" style="--i: 1;"><span class="text-4xl"><b>T</b></span></div>
+                        <div class="zigzag__item" style="--i: 2;"><span class="text-4xl"><b>A</b></span></div>
+                        <div class="zigzag__item" style="--i: 3;"><span class="text-4xl"><b>T</b></span></div>
+                        <div class="zigzag__item" style="--i: 4;"><span class="text-4xl"><b>U</b></span></div>
+                        <div class="zigzag__item" style="--i: 5;"><span class="text-4xl"><b>S</b></span></div>
+                    </div>
+                    <div class="zigzag__container">
+                        <div class="zigzag__item" style="--i: 0;"></div>
+                        <div class="zigzag__item" style="--i: 1;"></div>
+                        <div class="zigzag__item" style="--i: 2;"></div>
+                        <div class="zigzag__item" style="--i: 3;"></div>
+                        <div class="zigzag__item" style="--i: 4;"></div>
+                        <div class="zigzag__item" style="--i: 5;"></div>
+                    </div>
+                </section>
+            </section>
+
+            <div class="box a w-3/4 text-7xl text-center">
+                <p class="border-0" contenteditable="true" x-text="text"></p>
+            </div>
+
+            <div ontouchstart="">
+                <div class="button">
+                    <a href="#" class="text-4xl" x-on:click="text='BIO'">Bio</a>
+                </div>
+                <div class="button">
+                    <a href="#" class="text-4xl" x-on:click="text='BREAK'">Break</a>
+                </div>
+                <div class="button">
+                    <a href="#" class="text-4xl" x-on:click="text='WATCHU DOING?'">Clear</a>
+                </div>
+            </div>
+
+        </div>
+        <div class="flex justify-end text-white">
+            <h1 class="pr-5">@mayk&emsp;</h1>
+        </div>
+
+
+    </div>
+</body>
+
+<script>
+    function showTime() {
+        var date = new Date();
+        var h = date.getHours(); // 0 - 23
+        var m = date.getMinutes(); // 0 - 59
+        var s = date.getSeconds(); // 0 - 59
+        var session = "AM";
+
+        if (h == 0) {
+            h = 12;
+        }
+
+        if (h > 12) {
+            h = h - 12;
+            session = "PM";
+        }
+
+        h = (h < 10) ? "0" + h : h;
+        m = (m < 10) ? "0" + m : m;
+        s = (s < 10) ? "0" + s : s;
+
+        var time = h + ":" + m + ":" + s + " " + session;
+        document.getElementById("MyClockDisplay").innerText = time;
+        document.getElementById("MyClockDisplay").textContent = time;
+
+        setTimeout(showTime, 1000);
+
+    }
+
+    showTime();
+</script>
+
+</html>
