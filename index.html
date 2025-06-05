@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
+    <title>AFK</title>
+    <link rel="icon" type="image/x-icon" href="icon.svg">
 </head>
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
@@ -30,6 +31,14 @@
     select:invalid {
         box-shadow: none;
     }
+
+    @font-face {
+        font-family: 'Digital';
+        src: url('/digital-font.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
 
     /* Hide elements with x-cloak attribute (used with Alpine.js) until JavaScript loads */
     [x-cloak] {
@@ -342,14 +351,17 @@
 
 <body>
 
-    <div
-        class="bg-gray-100 bg-center min-h-[100vh] bg-dots dark:bg-gray-900 selection:bg-indigo-500 selection:text-white">
+    <div class="relative bg-center min-h-[100vh] selection:bg-indigo-500 selection:text-white">
+        <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
+            <source src="genshin.mp4" type="video/mp4" />
+        </video>
 
         <div x-data="{ text:'WATCHU DOING?' }"
             class="!min-h-[95vh] flex flex-col items-center justify-evenly container mx-auto text-white">
 
             <div class="flex justify-center w-full">
-                <div id="MyClockDisplay" class="text-8xl" onload="showTime()"></div>
+                <div id="MyClockDisplay" class="text-8xl tracking-widest font-bold drop-shadow-[0_0_5px_red]"
+                    style="-webkit-text-stroke: 1px black; font-family: Digital;" onload="showTime()"></div>
             </div>
 
             <section class="">
@@ -375,8 +387,10 @@
             </section>
 
             <div class="box a w-3/4 text-7xl text-center">
-                <p class="border-0" contenteditable="true" x-text="text"></p>
+                <p class=" border-0" contenteditable="true" placeholder="hatdog" x-text=" text">
+                </p>
             </div>
+
 
             <div ontouchstart="">
                 <div class="button">
@@ -386,7 +400,7 @@
                     <a href="#" class="text-4xl" x-on:click="text='BREAK'">Break</a>
                 </div>
                 <div class="button">
-                    <a href="#" class="text-4xl" x-on:click="text='WATCHU DOING?'">Clear</a>
+                    <a href="#" class="text-4xl" x-on:click="text=''">Clear</a>
                 </div>
             </div>
 
