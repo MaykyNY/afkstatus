@@ -329,19 +329,35 @@
 </style>
 
 
-<body style="font-family: GD;">
+<body style="font-family: GD;" class="relative"
+    x-data="{ text:'WATCHU DOING?', meme1: false, meme2: false, meme3: false, meme4: false, meme5: false, meme6: false,}">
 
-    <div class="relative bg-center min-h-[100vh] selection:bg-indigo-500 selection:text-white">
+    <div class="">
+        <img x-show="meme1" x-transition class="absolute top-6 left-14 w-[300px] h-[300px] object-contain"
+            src="meme-1.png" alt="">
+        <img x-show="meme2" x-transition class="absolute bottom-16 right-28 w-[300px] h-[300px] object-contain"
+            src="meme-2.png" alt="">
+        <img x-show="meme3" x-transition class="absolute bottom-3 left-28 w-[300px] h-[300px] object-contain"
+            src="meme-3.png" alt="">
+        <img x-show="meme4" x-transition class="absolute top-5 right-4 w-[300px] h-[300px] object-contain"
+            src="meme-4.png" alt="">
+        <img x-show="meme5" x-transition class="absolute top-80 left-48 w-[300px] h-[300px] object-contain"
+            src="meme-5.png" alt="">
+        <img x-show="meme6" x-transition class="absolute bottom-80 right-52 w-[300px] h-[300px] object-contain"
+            src="meme-6.png" alt="">
+    </div>
+
+    <div class="relative bg-center min-h-[100vh]">
         <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
             <source src="genshin.mp4" type="video/mp4" />
         </video>
 
-        <div x-data="{ text:'WATCHU DOING?' }"
-            class="!min-h-[95vh] flex flex-col items-center justify-evenly container mx-auto text-white">
+        <div class="!min-h-[95vh] flex flex-col items-center justify-evenly container mx-auto text-white">
 
             <div class="flex justify-center w-full">
                 <div style="font-family: Digital;" id="MyClockDisplay"
-                    class="text-8xl tracking-widest font-bold drop-shadow-[5px_5px_10px_black]" onload="showTime()">
+                    class="text-8xl tracking-widest select-none font-bold drop-shadow-[5px_5px_10px_black]"
+                    onload="showTime()">
                 </div>
             </div>
 
@@ -349,12 +365,23 @@
                 <section class="section__container">
                     <!--==================== ZigZag Border Animation ====================-->
                     <div class="zigzag__container">
-                        <div class="zigzag__item" style="--i: 0;"><span class="text-4xl"><b>S</b></span></div>
-                        <div class="zigzag__item" style="--i: 1;"><span class="text-4xl"><b>T</b></span></div>
-                        <div class="zigzag__item" style="--i: 2;"><span class="text-4xl"><b>A</b></span></div>
-                        <div class="zigzag__item" style="--i: 3;"><span class="text-4xl"><b>T</b></span></div>
-                        <div class="zigzag__item" style="--i: 4;"><span class="text-4xl"><b>U</b></span></div>
-                        <div class="zigzag__item" style="--i: 5;"><span class="text-4xl"><b>S</b></span></div>
+                        <div @click="meme1 =! meme1" class="zigzag__item" style="--i: 0;"><span
+                                class="text-4xl select-none"><b>S</b></span></div>
+                        <div @click="meme2 =! meme2" class="zigzag__item" style="--i: 1;"><span
+                                class="select-none text-4xl"><b>T</b></span>
+                        </div>
+                        <div @click="meme3 =! meme3" class="zigzag__item" style="--i: 2;"><span
+                                class="select-none text-4xl"><b>A</b></span>
+                        </div>
+                        <div @click="meme4 =! meme4" class="zigzag__item" style="--i: 3;"><span
+                                class="select-none text-4xl"><b>T</b></span>
+                        </div>
+                        <div @click="meme5 =! meme5" class="zigzag__item" style="--i: 4;"><span
+                                class="select-none text-4xl"><b>U</b></span>
+                        </div>
+                        <div @click="meme6 =! meme6" class="zigzag__item" style="--i: 5;"><span
+                                class="select-none text-4xl"><b>S</b></span>
+                        </div>
                     </div>
                     <div class="zigzag__container">
                         <div class="zigzag__item" style="--i: 0;"></div>
@@ -373,20 +400,30 @@
 
             <div class="w-full flex justify-center" ontouchstart="">
                 <div class="button w-1/4">
-                    <a href="#" class="text-4xl" x-on:click="text='BIO'">bio</a>
+                    <a href="#" class="text-4xl select-none" x-on:click="text='BIO'">bio</a>
                 </div>
                 <div class="button w-1/4">
-                    <a href="#" class="text-4xl" x-on:click="text='BREAK'">break</a>
+                    <a href="#" class="text-4xl select-none" x-on:click="text='BREAK'">break</a>
                 </div>
-                <div class="button w-1/4" onclick="document.getElementById('editable').innerText = ''">
-                    <a href="#" class="text-4xl">clear</a>
+                <div class="button w-1/4" x-on:click="text=''"
+                    onclick="document.getElementById('editable').innerText = ''">
+                    <a href="#" class="text-4xl select-none">clear</a>
                 </div>
             </div>
 
         </div>
-        <div class="flex justify-end text-white">
+        <div class="flex justify-end items-center gap-3" x-data="{ audio: null, isPlaying: false }" x-init="
+                audio = new Audio('music.mp3');
+                audio.addEventListener('play', () => isPlaying = true);
+                audio.addEventListener('pause', () => isPlaying = false);
+            ">
+            <button :class="isPlaying ? 'bg-green-500' : 'bg-red-500'" @click="isPlaying ? audio.pause() : audio.play()"
+                class="text-white w-[30px] h-[30px] hover:bg-blue-600 px-4 py-2 rounded-full"
+                x-text="isPlaying ? '🕩' : '🕨'"></button>
             <h1 class="pr-5">@mayk&emsp;</h1>
         </div>
+
+
 
 
     </div>
