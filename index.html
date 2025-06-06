@@ -33,33 +33,20 @@
     }
 
     @font-face {
-        font-family: 'Digital';
-        src: url('digital-font.ttf') format('truetype');
-        font-weight: normal;
-        font-style: normal;
-    }
-
-
-    /* Hide elements with x-cloak attribute (used with Alpine.js) until JavaScript loads */
-    [x-cloak] {
-        display: none;
-    }
-
-    @font-face {
         font-family: "GD";
         src: url("gd.otf") format("opentype");
         font-display: swap;
     }
 
-    @layer base {
-        html {
-            font-family: "GD", sans-serif;
-        }
+    @font-face {
+        font-family: 'Digital';
+        src: url('digital.woff2') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+    }
 
-        #MyClockDisplay {
-            -webkit-text-stroke: 1px black;
-            font-family: "Digital", sans-serif;
-        }
+    [x-cloak] {
+        display: none;
     }
 
     /*=============== VARIABLES CSS ===============*/
@@ -138,13 +125,13 @@
 
     /*==================== ZigZag Border Animation ====================*/
     .zigzag__container {
-        --skin-color: #00ff00;
-        --dark-black-color: #292929;
-        --border-color: #928b8b;
+        --skin-color: #DC143C;
+        --dark-black-color: black;
+        --border-color: #DC143C;
 
         position: absolute;
         display: flex;
-        gap: 38px;
+        gap: 30px;
     }
 
     .zigzag__container:nth-child(2) {
@@ -256,7 +243,7 @@
         color: white;
         text-align: center;
         text-decoration: none;
-        background-color: #ffa12b;
+        background-color: #DC143C;
         display: block;
         position: relative;
         padding: 20px 40px;
@@ -265,9 +252,9 @@
         text-shadow: 0px 1px 0px #000;
         filter: dropshadow(color=#000, offx=0px, offy=1px);
 
-        -webkit-box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
-        -moz-box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
-        box-shadow: inset 0 1px 0 #ffe5c4, 0 10px 0 #915100;
+        -webkit-box-shadow: inset 0 1px 0 #ffc0cc, 0 10px 0 #750a1f;
+        -moz-box-shadow: inset 0 1px 0 #ffc0cc, 0 10px 0 #750a1f;
+        box-shadow: inset 0 1px 0 #ffc0cc, 0 10px 0 #750a1f;
 
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
@@ -276,11 +263,11 @@
 
     .button a:active {
         top: 10px;
-        background-color: #f78900;
+        background-color: #DC143C;
 
-        -webkit-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
-        -moz-box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3pxpx 0 #915100;
-        box-shadow: inset 0 1px 0 #ffe5c4, inset 0 -3px 0 #915100;
+        -webkit-box-shadow: inset 0 1px 0 #ffc0cc, inset 0 -3px 0 #750a1f;
+        -moz-box-shadow: inset 0 1px 0 #ffc0cc, inset 0 -3pxpx 0 #750a1f;
+        box-shadow: inset 0 1px 0 #ffc0cc, inset 0 -3px 0 #750a1f;
     }
 
     .button:after {
@@ -339,22 +326,10 @@
         initial-value: 0deg;
         inherits: false;
     }
-
-    @media(prefers-color-scheme: dark) {
-        .bg-dots {
-            background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(200,200,255,0.15)'/%3E%3C/svg%3E");
-        }
-    }
-
-    @media(prefers-color-scheme: light) {
-        .bg-dots {
-            background-image: url("data:image/svg+xml,%3Csvg width='30' height='30' viewBox='0 0 30 30' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.22676 0C1.91374 0 2.45351 0.539773 2.45351 1.22676C2.45351 1.91374 1.91374 2.45351 1.22676 2.45351C0.539773 2.45351 0 1.91374 0 1.22676C0 0.539773 0.539773 0 1.22676 0Z' fill='rgba(0,0,50,0.10)'/%3E%3C/svg%3E")
-        }
-    }
 </style>
 
 
-<body>
+<body style="font-family: GD;">
 
     <div class="relative bg-center min-h-[100vh] selection:bg-indigo-500 selection:text-white">
         <video autoplay muted loop playsinline class="absolute top-0 left-0 w-full h-full object-cover z-[-1]">
@@ -365,11 +340,12 @@
             class="!min-h-[95vh] flex flex-col items-center justify-evenly container mx-auto text-white">
 
             <div class="flex justify-center w-full">
-                <div id="MyClockDisplay" class="text-8xl tracking-widest font-bold drop-shadow-[0_0_5px_red]"
-                    onload="showTime()"></div>
+                <div style="font-family: Digital;" id="MyClockDisplay"
+                    class="text-8xl tracking-widest font-bold drop-shadow-[5px_5px_10px_black]" onload="showTime()">
+                </div>
             </div>
 
-            <section class="">
+            <section class="h-40 flex items-center">
                 <section class="section__container">
                     <!--==================== ZigZag Border Animation ====================-->
                     <div class="zigzag__container">
@@ -391,21 +367,19 @@
                 </section>
             </section>
 
-            <div class="box a w-3/4 text-7xl text-center">
-                <p class=" border-0" contenteditable="true" placeholder="hatdog" x-text=" text">
-                </p>
+            <div id="editable" contenteditable class="box a w-3/4 text-7xl text-center" x-text="text">
             </div>
 
 
-            <div ontouchstart="">
-                <div class="button">
-                    <a href="#" class="text-4xl" x-on:click="text='BIO'">Bio</a>
+            <div class="w-full flex justify-center" ontouchstart="">
+                <div class="button w-1/4">
+                    <a href="#" class="text-4xl" x-on:click="text='BIO'">bio</a>
                 </div>
-                <div class="button">
-                    <a href="#" class="text-4xl" x-on:click="text='BREAK'">Break</a>
+                <div class="button w-1/4">
+                    <a href="#" class="text-4xl" x-on:click="text='BREAK'">break</a>
                 </div>
-                <div class="button">
-                    <a href="#" class="text-4xl" x-on:click="text=''">Clear</a>
+                <div class="button w-1/4" onclick="document.getElementById('editable').innerText = ''">
+                    <a href="#" class="text-4xl">clear</a>
                 </div>
             </div>
 
