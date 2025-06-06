@@ -418,7 +418,7 @@
                 audio.addEventListener('pause', () => isPlaying = false);
             ">
             <button :class="isPlaying ? 'bg-green-500' : 'bg-red-500'" @click="isPlaying ? audio.pause() : audio.play()"
-                class="text-white w-[30px] h-[30px] hover:bg-blue-600 px-4 py-2 rounded-full"
+                class="text-white w-[30px] h-[30px] hover:bg-gray-500 cursor-pointer px-4 py-2 rounded-full"
                 x-text="isPlaying ? '🕩' : '🕨'"></button>
             <h1 class="pr-5">@mayk&emsp;</h1>
         </div>
